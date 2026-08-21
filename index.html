@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>RecoverMandate</title>
+</head>
+<body>
+
+  <h1>RecoverMandate Dashboard</h1>
+  <p>This will show recovered revenue from failed subscription payments.</p>
+
+  <div id="summary"></div>
+
+  <table border="1" id="paymentsTable">
+    <thead>
+      <tr>
+        <th>Transaction ID</th>
+        <th>Amount</th>
+        <th>Error Reason</th>
+        <th>Bank</th>
+        <th>Method</th>
+        <th>Diagnosed Cause</th>
+        <th>Recommended Action</th>
+      </tr>
+    </thead>
+    <tbody id="paymentsBody">
+      <!-- rows will be added here by JS -->
+    </tbody>
+  </table>
+
+  <script src="data.js"></script>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
