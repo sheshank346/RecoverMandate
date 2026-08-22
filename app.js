@@ -53,9 +53,12 @@ async function getExplanation(payment, diagnosedCause, action) {
       body: JSON.stringify({ payment, diagnosedCause, action })
     });
     const data = await response.json();
-    return data.explanation || "No explanation available.";
+    if (data.explanation) {
+      return data.explanation;
+    }
+    return "DEBUG ERROR: " + JSON.stringify(data);
   } catch (error) {
-    return "Could not generate explanation.";
+    return "DEBUG CATCH ERROR: " + error.message;
   }
 }
 
