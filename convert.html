@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CSV Converter</title>
+</head>
+<body>
+
+  <h1>Convert CSV to RecoverMandate format</h1>
+  <p>Upload a CSV with columns: transaction_id, amount, error_code, error_reason, error_source, payment_method, bank</p>
+
+  <input type="file" id="csvFile" accept=".csv">
+  <br><br>
+  <textarea id="output" rows="20" cols="100" placeholder="Converted data will appear here..."></textarea>
+
+  <script>
+    document.getElementById("csvFile").addEventListener("change", function(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        const text = e.target.result;
+        const lines = text.split("\n").filter(function(line) { return line.trim() !== ""; });
+        const headers = lines[0].split(",").map(function(h) { return h.trim(); });
+
+        const records = [];
+        for (let i = 1; i < lines.length; i++) {
+          const values = lines[i].split(",").map(function(v) { return v.trim(); });
+          const record = {};
+          headers.forEach(function(header, index) {
+            record[header] = values[index];
+          });
+          // Ensure amount is a number
+          if (record.amount) {
+            record.amount = Number(record.amount);
+          }
+          records.push(record);
+        }
+
+        const jsCode = "const failedPayments = " + JSON.stringify(records, null, 2) + ";";
+        document.getElementById("output").value = jsCode;
+      };
+
+      reader.readAsText(file);
+    });
+  </script>
+
+</body>
+</html>s
