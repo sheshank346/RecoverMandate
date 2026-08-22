@@ -20,7 +20,7 @@ In 1-2 short sentences, explain in plain English why this diagnosis and action m
 
   try {
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + process.env.GEMINI_API_KEY,
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + process.env.GEMINI_API_KEY,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -31,10 +31,15 @@ In 1-2 short sentences, explain in plain English why this diagnosis and action m
     );
 
     const data = await response.json();
-    const explanation = data.candidates[0].content.parts[0].text;
 
+    if (!data.candidates) {
+      return res.status(500).json({ error: "No candidates from Gemini", raw: data });
+    }
+
+    const explanation = data.candidates[0].content.parts[0].text;
     res.status(200).json({ explanation });
+
   } catch (error) {
-    res.status(500).json({ error: "Failed to generate explanation" });
+    res.status(500).json({ error: "Failed to generate explanation", details: error.message });
   }
 }
