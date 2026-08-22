@@ -53,7 +53,7 @@ async function getExplanation(payment, diagnosedCause, action) {
       body: JSON.stringify({ payment, diagnosedCause, action })
     });
     const data = await response.json();
-    return data.explanation || "Explanation currently unavailable.";
+    return data.explanation || "DEBUG: " + JSON.stringify(data);
   } catch (error) {
     return "Explanation currently unavailable.";
   }
