@@ -58,3 +58,16 @@ const failedPayments = [];
 for (let i = 1; i <= 200; i++) {
   failedPayments.push(generateRecord(i));
 }
+// Edge case: malformed record with unrecognized error code (tests graceful handling)
+failedPayments.push({
+  transaction_id: "txn_9999",
+  subscription_id: "sub_999",
+  amount: 9999,
+  error_code: "UNKNOWN_WEIRD_ERROR",
+  error_reason: "unclassified",
+  error_source: "unknown",
+  payment_method: "upi",
+  bank: "N/A",
+  timestamp: new Date().toISOString(),
+  true_cause: "unknown"
+});
