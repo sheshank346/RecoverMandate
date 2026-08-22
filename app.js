@@ -44,3 +44,43 @@ document.getElementById("summary").innerHTML = `
   <p><b>RecoverMandate recovery (diagnosed + targeted intervention):</b> ₹${totalRecoveredEngine.toFixed(0)} (${engineRecoveryRate}%)</p>
   <p><b>Diagnosis accuracy:</b> ${diagnosisAccuracy}% (${correctDiagnoses} of ${failedPayments.length} correctly matched true cause)</p>
 `;
+// AI Explanation feature - fetch real explanations for a few sample transactions
+async function getExplanation(payment, diagnosedCause, action) {
+  try {
+    const response = await fetch("/api/explain", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ payment, diagnosedCause, action })
+    });
+    const data = await response.json();
+    return data.explanation || "No explanation available.";
+  } catch (error) {
+    return "Could not generate explanation.";
+  }
+}
+
+// Show explanations for first 5 transactions as a demo
+async function showSampleExplanations() {
+  const container = document.getElementById("explanations");
+  container.innerHTML = "<h2>AI Audit Trail (sample)</h2><p>Loading explanations...</p>";
+
+  let html = "<h2>AI Audit Trail (sample)</h2>";
+
+  for (let i = 0; i < 5; i++) {
+    const payment = failedPayments[i];
+    const diagnosed = diagnoseCause(payment);
+    const action = interventions[diagnosed].action;
+    const explanation = await getExplanation(payment, diagnosed, action);
+
+    html += `
+      <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+        <b>${payment.transaction_id}</b> (₹${payment.amount}) — ${diagnosed}<br>
+        <i>${explanation}</i>
+      </div>
+    `;
+  }
+
+  container.innerHTML = html;
+}
+
+showSampleExplanations();
