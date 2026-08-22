@@ -21,15 +21,13 @@ failedPayments.forEach(function(payment) {
   }
 
   const row = document.createElement("tr");
-  row.innerHTML = `
-    <td>${payment.transaction_id}</td>
-    <td>${payment.amount}</td>
-    <td>${payment.error_reason}</td>
-    <td>${payment.bank}</td>
-    <td>${payment.payment_method}</td>
-    <td>${diagnosed}</td>
-    <td>${intervention.action}</td>
-  `;
+  row.innerHTML = "<td>" + payment.transaction_id + "</td>" +
+    "<td>" + payment.amount + "</td>" +
+    "<td>" + payment.error_reason + "</td>" +
+    "<td>" + payment.bank + "</td>" +
+    "<td>" + payment.payment_method + "</td>" +
+    "<td>" + diagnosed + "</td>" +
+    "<td>" + intervention.action + "</td>";
   tableBody.appendChild(row);
 });
 
@@ -37,17 +35,15 @@ const diagnosisAccuracy = ((correctDiagnoses / failedPayments.length) * 100).toF
 const engineRecoveryRate = ((totalRecoveredEngine / totalAtRisk) * 100).toFixed(1);
 const baselineRecoveryRate = (baselineSuccessRate * 100).toFixed(1);
 
-document.getElementById("summary").innerHTML = `
-  <h2>Results</h2>
-  <p><b>Total amount at risk:</b> ₹${totalAtRisk.toLocaleString()}</p>
-  <p><b>Baseline recovery (generic retry for all):</b> ₹${totalRecoveredBaseline.toFixed(0)} (${baselineRecoveryRate}%)</p>
-  <p><b>RecoverMandate recovery (diagnosed + targeted intervention):</b> ₹${totalRecoveredEngine.toFixed(0)} (${engineRecoveryRate}%)</p>
-  <p><b>Diagnosis accuracy:</b> ${diagnosisAccuracy}% (${correctDiagnoses} of ${failedPayments.length} correctly matched true cause)</p>
-`;
+document.getElementById("summary").innerHTML =
+  "<h2>Results</h2>" +
+  "<p><b>Total amount at risk:</b> \u20B9" + totalAtRisk.toLocaleString() + "</p>" +
+  "<p><b>Baseline recovery (generic retry for all):</b> \u20B9" + totalRecoveredBaseline.toFixed(0) + " (" + baselineRecoveryRate + "%)</p>" +
+  "<p><b>RecoverMandate recovery (diagnosed + targeted intervention):</b> \u20B9" + totalRecoveredEngine.toFixed(0) + " (" + engineRecoveryRate + "%)</p>" +
+  "<p><b>Diagnosis accuracy:</b> " + diagnosisAccuracy + "% (" + correctDiagnoses + " of " + failedPayments.length + " correctly matched true cause)</p>";
 
 // Pre-written sample explanations (avoids live API calls / quota limits during demo)
-// These were originally generated live by Gemini during development and testing.
-const sampleExplanations = {
+var sampleExplanations = {
   otp_required: "This bank declined the automatic payment because the amount exceeds the limit for seamless auto-debits and requires Additional Factor of Authentication. Prompting the customer to complete an OTP verification will allow the bank to safely approve the transaction.",
   mandate_expired: "The payment failed because the customer's recurring payment authorization (e-mandate) has expired, blocking automatic deductions. Sending a re-registration link allows the customer to set up a new mandate so future payments can process successfully.",
   card_expired: "The payment failed because the card linked to the customer's saved payment instrument has expired, preventing the auto-debit from going through. Prompting the customer to update their card details will restore the mandate so future recurring payments can process successfully.",
@@ -56,17 +52,22 @@ const sampleExplanations = {
   unknown: "This transaction's failure pattern didn't match any known cause, so it has been flagged for manual review rather than an automated action."
 };
 
-// Show explanations for first 5 transactions as a demo
 function showSampleExplanations() {
-  const container = document.getElementById("explanations");
-  let html = "<h2>AI Audit Trail (sample)</h2>";
+  var container = document.getElementById("explanations");
+  var html = "<h2>AI Audit Trail (sample)</h2>";
 
-  for (let i = 0; i < 5; i++) {
-    const payment = failedPayments[i];
-    const diagnosed = diagnoseCause(payment);
-    const explanation = sampleExplanations[diagnosed];
+  for (var i = 0; i < 5; i++) {
+    var payment = failedPayments[i];
+    var diagnosed = diagnoseCause(payment);
+    var explanation = sampleExplanations[diagnosed];
 
-    html += `
-      <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-        <b>${payment.transaction_id}</b> (₹${payment.amount}) — ${diagnosed}<br>
-        <i>${explanation}</i>
+    html += "<div style='border:1px solid #ccc; padding:10px; margin-bottom:10px;'>" +
+      "<b>" + payment.transaction_id + "</b> (\u20B9" + payment.amount + ") \u2014 " + diagnosed + "<br>" +
+      "<i>" + explanation + "</i>" +
+      "</div>";
+  }
+
+  container.innerHTML = html;
+}
+
+showSampleExplanations();
