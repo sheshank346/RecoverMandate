@@ -53,15 +53,11 @@ async function getExplanation(payment, diagnosedCause, action) {
       body: JSON.stringify({ payment, diagnosedCause, action })
     });
     const data = await response.json();
-    if (data.explanation) {
-      return data.explanation;
-    }
-    return "DEBUG ERROR: " + JSON.stringify(data);
+    return data.explanation || "Explanation currently unavailable.";
   } catch (error) {
-    return "DEBUG CATCH ERROR: " + error.message;
+    return "Explanation currently unavailable.";
   }
 }
-
 // Show explanations for first 5 transactions as a demo
 async function showSampleExplanations() {
   const container = document.getElementById("explanations");
