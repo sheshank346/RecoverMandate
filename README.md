@@ -72,6 +72,8 @@ See diagram below. Frontend handles diagnosis and recovery math (deterministic, 
 
 ## Limitations
 
-Hackathon proof-of-concept using synthetic data modeled on real Razorpay error codes and RBI regulations. Success-rate assumptions are explicitly stated modeling estimates, not measured from live data.# RecoverMandate                         ## architecture
+Hackathon proof-of-concept using synthetic data modeled on real Razorpay error codes and RBI regulations. Success-rate assumptions are explicitly stated modeling estimates, not measured from live data.# RecoverMandate                         
+
+##ARCHITECTURE
 Data (data.js) -> Diagnosis Engine (engine.js) -> Frontend Dashboard (app.js) -> Backend API (api/explain.js) -> Google Gemini API -> AI Explanation returned to Dashboard
 
