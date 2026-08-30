@@ -78,6 +78,44 @@
       display: block;
       margin-bottom: 2px;
     }
+    .chart-card {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .bar-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 12px;
+    }
+    .bar-label {
+      width: 140px;
+      font-size: 13px;
+      color: #555;
+      flex-shrink: 0;
+    }
+    .bar-track {
+      flex: 1;
+      background: #F0F1F8;
+      border-radius: 6px;
+      height: 22px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3E51F5, #6C63FF);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      color: white;
+      font-size: 12px;
+      padding-right: 8px;
+      font-weight: 600;
+    }
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -181,6 +219,11 @@
         <div class="step-icon">✅</div>
         <div class="step-text"><b>We Recover</b>The right action is triggered — mandate link, card update, OTP retry, or smart retry</div>
       </div>
+    </div>
+
+    <div class="chart-card">
+      <h2 style="margin-top:0;">Failure Breakdown by Cause</h2>
+      <div id="chartBars"></div>
     </div>
 
     <div id="summary"></div>

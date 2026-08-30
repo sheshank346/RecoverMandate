@@ -72,3 +72,30 @@ function showSampleExplanations() {
 }
 
 showSampleExplanations();
+var causeCounts = {};
+failedPayments.forEach(function(payment) {
+  var cause = diagnoseCause(payment);
+  causeCounts[cause] = (causeCounts[cause] || 0) + 1;
+});
+
+var maxCount = Math.max.apply(null, Object.values(causeCounts));
+var chartHtml = "";
+var labelMap = {
+  mandate_expired: "Mandate Expired",
+  card_expired: "Card Expired",
+  otp_required: "OTP Required",
+  bank_transient: "Bank Transient",
+  insufficient_funds: "Insufficient Funds",
+  unknown: "Unknown"
+};
+
+Object.keys(causeCounts).forEach(function(cause) {
+  var count = causeCounts[cause];
+  var widthPct = (count / maxCount) * 100;
+  chartHtml += "<div class='bar-row'>" +
+    "<div class='bar-label'>" + (labelMap[cause] || cause) + "</div>" +
+    "<div class='bar-track'><div class='bar-fill' style='width:" + widthPct + "%'>" + count + "</div></div>" +
+    "</div>";
+});
+
+document.getElementById("chartBars").innerHTML = chartHtml;
