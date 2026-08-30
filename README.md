@@ -22,7 +22,11 @@ RecoverMandate diagnoses the actual root cause of each failed recurring payment 
 | Bank transient error | Smart retry after delay |
 | Insufficient funds | Gentle reminder before retry |
 | Unrecognized cause | Flag for manual review |
+## Positioning vs. Razorpay Vulcan
 
+Razorpay's Vulcan is a transformer-based foundation model focused on improving payment success rates, fraud detection, and checkout personalization — largely upfront, before or during a transaction.
+
+RecoverMandate operates one stage later: for payments that still fail despite that, it diagnoses the specific root cause and triggers the correct recovery action. This is a complementary, post-failure layer rather than a competing system — it could plausibly consume signals from a system like Vulcan rather than duplicating them.
 ## Results
 
 - **Total at risk:** ₹23+ lakh
