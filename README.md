@@ -80,4 +80,5 @@ Hackathon proof-of-concept using synthetic data modeled on real Razorpay error c
 
 ##ARCHITECTURE
 Data (data.js) -> Diagnosis Engine (engine.js) -> Frontend Dashboard (app.js) -> Backend API (api/explain.js) -> Google Gemini API -> AI Explanation returned to Dashboard
-
+   <!-- redeploy trigger -->
+   
